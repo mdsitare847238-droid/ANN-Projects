@@ -95,260 +95,834 @@ Performance Evaluation
 
 # 🧠Project2 — Power Plant Energy ANN Regression
 
-## 📌 Project Overview
+````markdown
+# ⚡ Project 02 — Power Plant Energy Prediction using ANN
 
-This project implements an **Artificial Neural Network (ANN) Regression model** using **PyTorch** to predict the electrical energy output of a power plant.
+## 🎯 Problem Statement
 
-The model learns the relationship between environmental conditions and the amount of electrical energy produced by the power plant.
+The objective of this project is to develop an **Artificial Neural Network (ANN)** capable of predicting the electrical energy output of a power plant based on environmental and operational parameters.
 
----
+This project is formulated as a **supervised regression problem**, where the model learns the relationship between multiple input variables and the continuous target variable **Produced Energy (`PE`)**.
 
-## 🎯 Objective
-
-The main objective of this project is to build an ANN-based regression model that predicts **Produced Electrical Energy (PE)** using environmental and operational parameters.
-
----
-
-## 📊 Dataset
-
-The project uses the **Combined Cycle Power Plant dataset**.
-
-**Dataset File:** `powerplant_data.csv`
-
-The dataset contains environmental conditions recorded from a power plant along with the corresponding electrical energy output.
+The goal is to build a neural network that can accurately predict energy output for previously unseen data.
 
 ---
 
-## 📥 Input Features
+# 📊 Dataset
+
+**Dataset:** Power Plant Dataset
+
+**File:** `powerplant_data.csv`
+
+The dataset contains four independent variables that influence the electrical energy output of the power plant.
+
+### Input Features
 
 | Feature | Description |
 |---|---|
-| **AT** | Ambient Temperature |
-| **V** | Exhaust Vacuum |
-| **AP** | Ambient Pressure |
-| **RH** | Relative Humidity |
+| `AT` | Ambient Temperature |
+| `V` | Exhaust Vacuum |
+| `AP` | Ambient Pressure |
+| `RH` | Relative Humidity |
+
+### Target Variable
+
+```text
+PE → Produced Energy
+````
 
 ---
 
-## 🎯 Target Variable
+# 🔄 Regression Workflow
 
-| Target | Description |
-|---|---|
-| **PE** | Produced Electrical Energy |
+The complete machine learning pipeline used in this project is:
 
----
-
-## 🧠 What is ANN Regression?
-
-**Artificial Neural Network Regression** is a deep learning technique used to predict continuous numerical values.
-
-In this project, the ANN learns the relationship between environmental parameters and power plant energy production.
-
-### General Architecture
-
-**Input Layer → Hidden Layer → Hidden Layer → Output Layer**
-
----
-
-## 🔄 Project Workflow
-
-1. Dataset Loading
-2. Dataset Exploration
-3. Data Preprocessing
-4. Feature and Target Selection
-5. Train-Test Split
-6. Feature Scaling
-7. Tensor Conversion
-8. ANN Model Construction
-9. Loss Function Definition
-10. Optimizer Selection
-11. Model Training
-12. Prediction
-13. Model Evaluation
+```text
+Raw Dataset
+     ↓
+Data Preprocessing
+     ↓
+Feature / Target Separation
+     ↓
+Train-Test Split (80/20)
+     ↓
+Feature Scaling using StandardScaler
+     ↓
+PyTorch Tensor Conversion
+     ↓
+Artificial Neural Network
+     ↓
+Forward Propagation
+     ↓
+MSE Loss Calculation
+     ↓
+Backpropagation
+     ↓
+Adam Optimization
+     ↓
+Model Training
+     ↓
+Prediction on Test Data
+     ↓
+MSE & R² Evaluation
+```
 
 ---
 
-## 🏗️ ANN Architecture
+# 🧠 Model Architecture
 
-The model consists of:
+A fully connected **Artificial Neural Network (ANN)** was implemented using **PyTorch**.
 
-- **Input Layer:** 4 neurons
-- **Hidden Layer 1:** 6 neurons
-- **Activation Function:** ReLU
-- **Hidden Layer 2:** 6 neurons
-- **Activation Function:** ReLU
-- **Output Layer:** 1 neuron
+The network consists of an input layer, two hidden layers, and a single output neuron for continuous energy prediction.
 
 ### Architecture
 
-**4 Input Features → 6 Neurons → 6 Neurons → 1 Output**
+```text
+Input Layer
+    │
+    ▼
+4 Input Features
+    │
+    ▼
+Fully Connected Layer
+6 Neurons
+    │
+   ReLU
+    │
+    ▼
+Fully Connected Layer
+6 Neurons
+    │
+   ReLU
+    │
+    ▼
+Output Layer
+1 Neuron
+    │
+    ▼
+Produced Energy (PE)
+```
 
 ---
 
-## ⚙️ Model Configuration
+# ⚙️ Model Configuration
 
-| Parameter | Value |
-|---|---|
-| Framework | PyTorch |
-| Problem Type | Regression |
-| Input Features | 4 |
-| Hidden Layers | 2 |
-| Neurons per Hidden Layer | 6 |
-| Activation Function | ReLU |
-| Loss Function | Mean Squared Error (MSE) |
-| Optimizer | Adam |
-| Learning Rate | 0.001 |
-| Epochs | 100 |
-| Train-Test Split | 80:20 |
-| Feature Scaling | StandardScaler |
+| Parameter           | Configuration  |
+| ------------------- | -------------- |
+| Framework           | PyTorch        |
+| Problem Type        | Regression     |
+| Input Features      | 4              |
+| Hidden Layer 1      | 6 Neurons      |
+| Hidden Layer 2      | 6 Neurons      |
+| Activation Function | ReLU           |
+| Output Layer        | 1 Neuron       |
+| Loss Function       | MSELoss        |
+| Optimizer           | Adam           |
+| Learning Rate       | 0.001          |
+| Training Epochs     | 100            |
+| Train/Test Split    | 80/20          |
+| Feature Scaling     | StandardScaler |
 
 ---
 
-## 📏 Data Preprocessing
+# 💻 Complete Python Code
 
-### Feature Scaling
+## 1. Import Required Libraries
 
-The input features are standardized using **StandardScaler**.
+```python
+import pandas as pd
+import numpy as np
+import torch
+import torch.nn as nn
 
-Feature scaling helps the neural network train more efficiently when input features have different numerical ranges.
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error, r2_score
+```
 
-### Train-Test Split
+---
+
+## 2. Load Dataset
+
+```python
+df = pd.read_csv("powerplant_data.csv")
+
+df.head()
+```
+
+---
+
+## 3. Dataset Information
+
+```python
+print("Dataset Shape:")
+print(df.shape)
+
+print("\nDataset Information:")
+print(df.info())
+
+print("\nMissing Values:")
+print(df.isnull().sum())
+```
+
+---
+
+## 4. Separate Features and Target
+
+The four input features are:
+
+* `AT`
+* `V`
+* `AP`
+* `RH`
+
+The target variable is:
+
+* `PE`
+
+```python
+X = df.drop("PE", axis=1)
+
+y = df["PE"]
+```
+
+---
+
+## 5. Train-Test Split
 
 The dataset is divided into:
 
-- **80% Training Data**
-- **20% Testing Data**
+* **80% Training Data**
+* **20% Testing Data**
 
-The training data is used to train the model, while the testing data is used to evaluate its performance on unseen data.
-
----
-
-## 📉 Loss Function
-
-The model uses **Mean Squared Error (MSE)** as the loss function.
-
-MSE measures the average squared difference between actual and predicted values.
-
-A lower MSE indicates better prediction performance.
+```python
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.20,
+    random_state=42
+)
+```
 
 ---
 
-## ⚡ Optimizer
+## 6. Feature Scaling
 
-The model uses the **Adam Optimizer** to update the weights and biases during training.
+`StandardScaler` is used to standardize the input features.
 
-**Learning Rate:** `0.001`
+```python
+scaler = StandardScaler()
 
-Adam provides efficient and adaptive optimization during neural network training.
+X_train_scaled = scaler.fit_transform(X_train)
 
----
-
-## 🏋️ Model Training
-
-The ANN model is trained for **100 epochs**.
-
-During training, the model performs:
-
-**Forward Propagation → Loss Calculation → Backpropagation → Weight Update**
-
-This process is repeated to minimize the prediction error and improve the model's performance.
+X_test_scaled = scaler.transform(X_test)
+```
 
 ---
 
-## 📊 Model Evaluation
+## 7. Convert Data into PyTorch Tensors
 
-The model is evaluated using:
+```python
+X_train_tensor = torch.tensor(
+    X_train_scaled,
+    dtype=torch.float32
+)
 
-### Mean Squared Error (MSE)
+X_test_tensor = torch.tensor(
+    X_test_scaled,
+    dtype=torch.float32
+)
+```
 
-Measures the average squared difference between actual and predicted values.
+Convert target values:
 
-### R² Score
+```python
+y_train_tensor = torch.tensor(
+    y_train.values,
+    dtype=torch.float32
+).reshape(-1, 1)
 
-Measures how well the model explains the variation in the target variable.
-
-An R² score closer to **1.0** indicates better model performance.
-
----
-
-## 📈 Results
-
-| Evaluation Metric | Result |
-|---|---:|
-| **Training MSE** | 21.14 |
-| **Testing MSE** | 19.59 |
-| **R² Score** | 0.9315 |
-
-### Performance Summary
-
-The model achieved an **R² Score of 0.9315**, indicating strong predictive performance on the test dataset.
-
----
-
-## 💡 Key Learning Outcomes
-
-- Artificial Neural Network Regression
-- PyTorch
-- Neural Network Architecture
-- ReLU Activation Function
-- Forward Propagation
-- Backpropagation
-- Adam Optimizer
-- Mean Squared Error
-- R² Score
-- Feature Scaling
-- Train-Test Split
-- PyTorch Tensors
-- Regression Model Evaluation
+y_test_tensor = torch.tensor(
+    y_test.values,
+    dtype=torch.float32
+).reshape(-1, 1)
+```
 
 ---
 
-## 🌍 Real-World Applications
+# 🧠 8. Build ANN Model
 
-ANN-based power plant energy prediction can be used for:
+The ANN contains:
 
-- Power Generation Forecasting
-- Energy Management
-- Plant Operation Planning
-- Resource Optimization
-- Power Plant Efficiency Analysis
-- Smart Energy Management
-- Predictive Analysis
+* Input layer → 4 features
+* Hidden layer 1 → 6 neurons
+* Hidden layer 2 → 6 neurons
+* Output layer → 1 neuron
 
----
+```python
+class ANN(nn.Module):
 
-## 🚀 Future Improvements
+    def __init__(self):
 
-- Hyperparameter Tuning
-- Additional Hidden Layers
-- Dropout Regularization
-- Batch Normalization
-- Early Stopping
-- Learning Rate Scheduling
-- Cross-Validation
-- Hyperparameter Optimization
-- Model Deployment
-- Web-Based Prediction Interface
+        super(ANN, self).__init__()
 
----
+        self.model = nn.Sequential(
 
-## 🛠️ Technologies Used
+            nn.Linear(X_train.shape[1], 6),
 
-- Python
-- PyTorch
-- Pandas
-- NumPy
-- Scikit-learn
-- Jupyter Notebook
-- Matplotlib
+            nn.ReLU(),
+
+            nn.Linear(6, 6),
+
+            nn.ReLU(),
+
+            nn.Linear(6, 1)
+        )
+
+    def forward(self, x):
+
+        return self.model(x)
+```
 
 ---
 
-## 📁 Project Structure
+# ⚙️ 9. Initialize Model, Loss Function and Optimizer
+
+```python
+model = ANN()
+
+criterion = nn.MSELoss()
+
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.001
+)
+```
+
+---
+
+# 🚀 10. Train the ANN Model
+
+The model is trained for **100 epochs**.
+
+```python
+epochs = 100
+
+train_losses = []
+
+for epoch in range(epochs):
+
+    # Training mode
+    model.train()
+
+    # Forward propagation
+    predictions = model(X_train_tensor)
+
+    # Calculate loss
+    loss = criterion(
+        predictions,
+        y_train_tensor
+    )
+
+    # Clear previous gradients
+    optimizer.zero_grad()
+
+    # Backpropagation
+    loss.backward()
+
+    # Update weights
+    optimizer.step()
+
+    # Store loss
+    train_losses.append(loss.item())
+
+    # Display loss
+    if (epoch + 1) % 10 == 0:
+
+        print(
+            f"Epoch [{epoch + 1}/{epochs}], "
+            f"Loss: {loss.item():.4f}"
+        )
+```
+
+---
+
+# 🔮 11. Make Predictions
+
+After training, the model is evaluated on both training and testing data.
+
+```python
+model.eval()
+
+with torch.no_grad():
+
+    train_predictions = model(
+        X_train_tensor
+    )
+
+    test_predictions = model(
+        X_test_tensor
+    )
+```
+
+---
+
+# 🔄 12. Convert Predictions to NumPy
+
+```python
+train_predictions = train_predictions.numpy()
+
+test_predictions = test_predictions.numpy()
+
+y_train_actual = y_train_tensor.numpy()
+
+y_test_actual = y_test_tensor.numpy()
+```
+
+---
+
+# 📉 13. Calculate Mean Squared Error
+
+```python
+train_mse = mean_squared_error(
+    y_train_actual,
+    train_predictions
+)
+
+test_mse = mean_squared_error(
+    y_test_actual,
+    test_predictions
+)
+
+print("Training MSE:", train_mse)
+
+print("Testing MSE:", test_mse)
+```
+
+---
+
+# 📈 14. Calculate R² Score
+
+```python
+r2 = r2_score(
+    y_test_actual,
+    test_predictions
+)
+
+print("R² Score:", r2)
+```
+
+---
+
+# 📋 15. Compare Actual vs Predicted Values
+
+```python
+result = pd.DataFrame({
+
+    "Actual PE":
+        y_test_actual.flatten(),
+
+    "Predicted PE":
+        test_predictions.flatten()
+})
+
+result.head(10)
+```
+
+---
+
+# 📌 Complete Code — Single Cell
+
+The complete ANN regression implementation can also be executed as one Python script/cell:
+
+```python
+import pandas as pd
+import numpy as np
+import torch
+import torch.nn as nn
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error, r2_score
+
+
+# Load Dataset
+df = pd.read_csv("powerplant_data.csv")
+
+print(df.shape)
+print(df.info())
+print(df.isnull().sum())
+
+
+# Features and Target
+X = df.drop("PE", axis=1)
+
+y = df["PE"]
+
+
+# Train-Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.20,
+    random_state=42
+)
+
+
+# Feature Scaling
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+
+X_test_scaled = scaler.transform(X_test)
+
+
+# Convert Features to PyTorch Tensor
+X_train_tensor = torch.tensor(
+    X_train_scaled,
+    dtype=torch.float32
+)
+
+X_test_tensor = torch.tensor(
+    X_test_scaled,
+    dtype=torch.float32
+)
+
+
+# Convert Target to PyTorch Tensor
+y_train_tensor = torch.tensor(
+    y_train.values,
+    dtype=torch.float32
+).reshape(-1, 1)
+
+y_test_tensor = torch.tensor(
+    y_test.values,
+    dtype=torch.float32
+).reshape(-1, 1)
+
+
+# ANN Model
+class ANN(nn.Module):
+
+    def __init__(self):
+
+        super(ANN, self).__init__()
+
+        self.model = nn.Sequential(
+
+            nn.Linear(X_train.shape[1], 6),
+
+            nn.ReLU(),
+
+            nn.Linear(6, 6),
+
+            nn.ReLU(),
+
+            nn.Linear(6, 1)
+        )
+
+    def forward(self, x):
+
+        return self.model(x)
+
+
+# Create Model
+model = ANN()
+
+
+# Loss Function
+criterion = nn.MSELoss()
+
+
+# Optimizer
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.001
+)
+
+
+# Training
+epochs = 100
+
+train_losses = []
+
+for epoch in range(epochs):
+
+    model.train()
+
+    predictions = model(X_train_tensor)
+
+    loss = criterion(
+        predictions,
+        y_train_tensor
+    )
+
+    optimizer.zero_grad()
+
+    loss.backward()
+
+    optimizer.step()
+
+    train_losses.append(loss.item())
+
+    if (epoch + 1) % 10 == 0:
+
+        print(
+            f"Epoch [{epoch + 1}/{epochs}], "
+            f"Loss: {loss.item():.4f}"
+        )
+
+
+# Evaluation
+model.eval()
+
+with torch.no_grad():
+
+    train_predictions = model(
+        X_train_tensor
+    )
+
+    test_predictions = model(
+        X_test_tensor
+    )
+
+
+# Convert to NumPy
+train_predictions = train_predictions.numpy()
+
+test_predictions = test_predictions.numpy()
+
+y_train_actual = y_train_tensor.numpy()
+
+y_test_actual = y_test_tensor.numpy()
+
+
+# Calculate MSE
+train_mse = mean_squared_error(
+    y_train_actual,
+    train_predictions
+)
+
+test_mse = mean_squared_error(
+    y_test_actual,
+    test_predictions
+)
+
+
+# Calculate R²
+r2 = r2_score(
+    y_test_actual,
+    test_predictions
+)
+
+
+# Print Results
+print("\nModel Performance")
+
+print("Training MSE:", train_mse)
+
+print("Testing MSE:", test_mse)
+
+print("R² Score:", r2)
+
+
+# Actual vs Predicted
+result = pd.DataFrame({
+
+    "Actual PE":
+        y_test_actual.flatten(),
+
+    "Predicted PE":
+        test_predictions.flatten()
+})
+
+print("\nActual vs Predicted:")
+
+print(result.head(10))
+```
+
+---
+
+# 📉 Loss Function
+
+Since this is a regression problem, **Mean Squared Error (MSE)** is used as the loss function.
+
+MSE measures the average squared difference between the actual and predicted energy values.
+
+```text
+MSE = Average((Actual - Predicted)²)
+```
+
+During training, the ANN minimizes this loss using **backpropagation and the Adam optimizer**.
+
+---
+
+# 📈 Model Evaluation
+
+The trained model is evaluated using:
+
+## 1. Mean Squared Error (MSE)
+
+MSE measures the prediction error of the regression model.
+
+A lower MSE generally indicates better prediction performance.
+
+## 2. R² Score
+
+The R² score measures how well the model explains the variation in the target variable.
+
+A value closer to **1.0** indicates stronger predictive performance.
+
+---
+
+# 🏆 Results
+
+The ANN regression model achieved the following results:
+
+| Metric       |     Result |
+| ------------ | ---------: |
+| Training MSE |  **21.14** |
+| Testing MSE  |  **19.59** |
+| R² Score     | **0.9315** |
+
+### 📌 Performance Interpretation
+
+The model achieved an **R² score of 0.9315**, indicating that approximately **93.15% of the variance in the produced energy output is explained by the model on the test dataset**.
+
+The testing MSE of **19.59** demonstrates that the model is capable of producing reasonably accurate predictions on unseen data.
+
+---
+
+# 💡 Key Learning Outcomes
+
+Through this project, I gained practical experience in:
+
+* Building ANN regression models using PyTorch
+* Preparing numerical datasets for Deep Learning
+* Separating independent and dependent variables
+* Applying train-test splitting
+* Standardizing input features
+* Working with PyTorch tensors
+* Designing fully connected neural networks
+* Using ReLU activation functions
+* Implementing MSE loss
+* Applying the Adam optimizer
+* Performing forward and backward propagation
+* Evaluating regression models using MSE and R²
+* Interpreting model performance
+
+---
+
+# 🌍 Business / Real-World Relevance
+
+Energy production forecasting is an important problem in the power and energy sector.
+
+Accurate prediction of power output can support:
+
+* ⚡ Energy production planning
+* 📊 Operational decision-making
+* 🏭 Power plant monitoring
+* 📈 Resource optimization
+* 🔋 Energy management
+* 💰 Improved operational efficiency
+
+This project demonstrates how **Deep Learning techniques can be applied to a real-world numerical prediction problem**.
+
+---
+
+# 🚀 Future Improvements
+
+The model can be further improved by implementing:
+
+* Hyperparameter tuning
+* Cross-validation
+* Early stopping
+* Dropout
+* Batch normalization
+* Learning-rate scheduling
+* Additional hidden layers
+* Different activation functions
+* Training/validation loss visualization
+* Actual vs Predicted visualization
+* Model checkpointing
+* Hyperparameter experimentation
+* Deployment using Flask or FastAPI
+
+---
+
+# 🛠️ Technologies Used
+
+* Python
+* PyTorch
+* Pandas
+* NumPy
+* Scikit-learn
+* Jupyter Notebook
+
+---
+
+# 📁 Project Structure
 
 ```text
 ANN-Projects/
 │
+├── ANN_Classification.ipynb
 ├── ANN_Regression.ipynb
+├── DateFruit_Dataset.csv
 ├── powerplant_data.csv
 └── README.md
+```
+
+---
+
+# 📂 Project Files
+
+| File                       | Description                       |
+| -------------------------- | --------------------------------- |
+| `ANN_Regression.ipynb`     | ANN regression implementation     |
+| `powerplant_data.csv`      | Power plant dataset               |
+| `ANN_Classification.ipynb` | ANN classification implementation |
+| `DateFruit_Dataset.csv`    | Date fruit classification dataset |
+| `README.md`                | Project documentation             |
+
+---
+
+# 🎯 Project Highlights
+
+```text
+✔ Deep Learning Regression
+✔ Artificial Neural Network
+✔ PyTorch Implementation
+✔ StandardScaler Preprocessing
+✔ Adam Optimization
+✔ MSE Loss
+✔ R² Evaluation
+✔ Real-World Power Plant Dataset
+✔ End-to-End ML Pipeline
+```
+
+---
+
+# ✅ Project Conclusion
+
+This project successfully demonstrates the application of an **Artificial Neural Network to a real-world regression problem**.
+
+The model takes four important power plant parameters — **Ambient Temperature, Exhaust Vacuum, Ambient Pressure, and Relative Humidity** — and learns their relationship with the electrical energy output.
+
+Using **PyTorch, StandardScaler, MSELoss, and the Adam optimizer**, the ANN achieved a **Testing MSE of 19.59** and an **R² score of 0.9315**.
+
+The project provided practical understanding of the complete Deep Learning workflow:
+
+**Data Preparation → Scaling → Tensor Conversion → ANN Design → Training → Optimization → Prediction → Evaluation**
+
+Overall, this project demonstrates the ability to implement a complete **Deep Learning regression solution using PyTorch** and apply ANN techniques to a practical power plant energy prediction problem.
+
+---
+
+# 👨‍💻 Author
+
+**MD SITARE**
+
+Artificial Intelligence & Machine Learning Enthusiast
+
+---
