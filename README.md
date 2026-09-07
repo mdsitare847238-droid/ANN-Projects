@@ -1,43 +1,62 @@
 # 🧠 Artificial Neural Network Projects
 
-Welcome to my **Artificial Neural Network (ANN) Projects** repository.
+<p align="center">
+  <b>End-to-End Deep Learning Projects using PyTorch</b>
+</p>
 
-This repository contains two end-to-end Deep Learning projects implemented using **Python, PyTorch, Pandas, NumPy, Scikit-learn, and Jupyter Notebook**.
-
-The projects demonstrate the application of Artificial Neural Networks for both **Classification** and **Regression** problems.
-
----
-
-## 📌 Projects Overview
-
-| Project | Type | Dataset | Target | Result |
-|--------|------|---------|--------|--------|
-| 🍇 ANN Classification | Classification | Date Fruit Dataset | Class | **93.89% Accuracy** |
-| ⚡ ANN Regression | Regression | Power Plant Dataset | PE | **R² = 0.9315** |
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-blue?logo=python">
+  <img src="https://img.shields.io/badge/PyTorch-Deep%20Learning-ee4c2c?logo=pytorch">
+  <img src="https://img.shields.io/badge/Scikit--learn-Machine%20Learning-orange?logo=scikit-learn">
+  <img src="https://img.shields.io/badge/Jupyter-Notebook-orange?logo=jupyter">
+  <img src="https://img.shields.io/badge/Status-Completed-success">
+</p>
 
 ---
 
-# 🍇 1. ANN Classification
+## 🚀 About This Repository
 
-### 📖 Description
+This repository contains two practical **Artificial Neural Network (ANN)** projects developed using **Python and PyTorch**.
 
-This project uses an **Artificial Neural Network (ANN)** to classify different types of dates based on their extracted features.
+The projects demonstrate how neural networks can be applied to two fundamental Machine Learning problems:
 
-The dataset contains **34 numerical features** and a categorical target variable named `Class`. The classification task contains **7 different classes**.
+- 🍇 **Classification** — identifying different varieties of dates
+- ⚡ **Regression** — predicting electrical energy output from a power plant
 
-### 📊 Dataset
+Both projects follow an end-to-end Machine Learning workflow:
+
+**Data → Preprocessing → Feature Scaling → Train/Test Split → ANN Architecture → Training → Evaluation → Performance Analysis**
+
+---
+
+# 📌 Projects Overview
+
+| Project | Problem Type | Dataset | Target | Performance |
+|---|---|---|---|---|
+| 🍇 Date Fruit Classification | Classification | Date Fruit Dataset | `Class` | **93.89% Accuracy** |
+| ⚡ Power Plant Prediction | Regression | Power Plant Dataset | `PE` | **R² = 0.9315** |
+
+---
+
+# 🍇 Project 01 — Date Fruit Classification
+
+## 🎯 Problem Statement
+
+The objective of this project is to build an Artificial Neural Network capable of classifying different varieties of dates based on their numerical characteristics.
+
+The model learns patterns from the input features and predicts the corresponding date variety.
+
+## 📊 Dataset
 
 **Dataset:** Date Fruit Dataset
 
 **File:** `DateFruit_Dataset.csv`
 
-**Input:** 34 numerical features
+- 34 numerical input features
+- 7 target classes
+- Multiclass classification problem
 
-**Target:** `Class`
-
-### 🎯 Classes
-
-The model classifies the date fruits into the following categories:
+### Classes
 
 - BERHI
 - DEGLET
@@ -47,87 +66,29 @@ The model classifies the date fruits into the following categories:
 - SAFAVI
 - SOGAY
 
-### 🤖 Model
+## 🧠 Model
 
-An Artificial Neural Network is implemented using **PyTorch**.
+A fully connected **Artificial Neural Network (ANN)** was implemented using **PyTorch**.
 
-The model is trained for **100 epochs** using mini-batch training.
-
-### 📈 Performance
-
-**Classification Accuracy: 93.89%**
-
-The model demonstrates strong performance in distinguishing between the different date fruit classes.
-
----
-
-# ⚡ 2. ANN Regression
-
-### 📖 Description
-
-This project uses an **Artificial Neural Network (ANN)** to predict the electrical energy output of a power plant.
-
-The model predicts **Power Plant Energy (PE)** using environmental and operational parameters.
-
-### 📊 Dataset
-
-**Dataset:** Power Plant Dataset
-
-**File:** `powerplant_data.csv`
-
-### 🔢 Features
-
-The dataset contains the following input features:
-
-- **AT** – Ambient Temperature
-- **V** – Vacuum
-- **AP** – Ambient Pressure
-- **RH** – Relative Humidity
-
-### 🎯 Target
-
-- **PE** – Produced Energy
-
-### 🤖 Model
-
-An Artificial Neural Network is implemented using **PyTorch**.
-
-The data is standardized using **StandardScaler** before training.
-
-The dataset is divided into training and testing sets using an **80:20 split**.
-
-### 📉 Loss Function
-
-**Mean Squared Error (MSE)** is used as the regression loss function.
-
-### 📈 Performance
-
-- **Training MSE:** 21.14
-- **Testing MSE:** 19.59
-- **R² Score:** 0.9315
-
-The model also compares predicted values with actual values to evaluate regression performance.
-
----
-
-# 🛠️ Technologies Used
-
-- 🐍 Python
-- 🔥 PyTorch
-- 🐼 Pandas
-- 🔢 NumPy
-- 📊 Scikit-learn
-- 📈 Matplotlib
-- 📓 Jupyter Notebook
-
----
-
-# 📁 Repository Structure
+### Training Pipeline
 
 ```text
-ANN-Projects/
-│
-├── ANN_Classification (1).ipynb
-├── ANN_Regression (1).ipynb
-├── DateFruit_Dataset.csv
-└── powerplant_data.csv
+Raw Dataset
+     ↓
+Data Preprocessing
+     ↓
+Feature / Target Separation
+     ↓
+Train-Test Split
+     ↓
+Feature Scaling
+     ↓
+PyTorch Tensor Conversion
+     ↓
+Artificial Neural Network
+     ↓
+Model Training
+     ↓
+Prediction
+     ↓
+Performance Evaluation
