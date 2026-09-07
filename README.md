@@ -92,3 +92,26 @@ Model Training
 Prediction
      ↓
 Performance Evaluation
+
+
+
+
+Project 02 — Power Plant Energy Prediction
+🎯 Problem Statement
+
+The objective of this project is to predict the electrical energy output of a power plant using environmental and operational measurements.
+
+This problem is formulated as a Regression task because the target is a continuous numerical value.
+
+📊 Dataset
+
+Dataset: Combined Cycle Power Plant Dataset
+
+File: powerplant_data.csv
+
+Input Features
+Feature	Description
+AT	Ambient Temperature
+V	Exhaust Vacuum
+AP	Ambient Pressure
+RH	Relative Humidity
