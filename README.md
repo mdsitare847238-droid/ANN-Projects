@@ -38,7 +38,7 @@ Both projects follow an end-to-end Machine Learning workflow:
 
 ---
 
-# 🍇 Project 01 — Date Fruit Classification
+# 🍇 Project 01 — Date Fruit ANN Classification
 
 ## 🎯 Problem Statement
 
@@ -93,8 +93,7 @@ Prediction
      ↓
 Performance Evaluation
 
-
-# 🧠 ANN Regression — Power Plant Energy Prediction
+# 🧠Project2 — Power Plant Energy ANN Regression
 
 ## 📌 Project Overview
 
@@ -106,17 +105,15 @@ The model learns the relationship between environmental conditions and the amoun
 
 ## 🎯 Objective
 
-The main objective of this project is to build an ANN-based regression model that can predict **Power Plant Energy Output (PE)** using different environmental and operational parameters.
-
-The project covers the complete machine learning workflow, from data preprocessing to model evaluation.
+The main objective of this project is to build an ANN-based regression model that predicts **Produced Electrical Energy (PE)** using environmental and operational parameters.
 
 ---
 
 ## 📊 Dataset
 
-The project uses the **Combined Cycle Power Plant dataset** stored in:
+The project uses the **Combined Cycle Power Plant dataset**.
 
-**`powerplant_data.csv`**
+**Dataset File:** `powerplant_data.csv`
 
 The dataset contains environmental conditions recorded from a power plant along with the corresponding electrical energy output.
 
@@ -124,40 +121,36 @@ The dataset contains environmental conditions recorded from a power plant along 
 
 ## 📥 Input Features
 
-| Feature | Description         |
-| ------- | ------------------- |
-| **AT**  | Ambient Temperature |
-| **V**   | Exhaust Vacuum      |
-| **AP**  | Ambient Pressure    |
-| **RH**  | Relative Humidity   |
+| Feature | Description |
+|---|---|
+| **AT** | Ambient Temperature |
+| **V** | Exhaust Vacuum |
+| **AP** | Ambient Pressure |
+| **RH** | Relative Humidity |
 
 ---
 
 ## 🎯 Target Variable
 
-| Target | Description                |
-| ------ | -------------------------- |
+| Target | Description |
+|---|---|
 | **PE** | Produced Electrical Energy |
-
-The ANN model predicts the value of **PE** based on the four input features.
 
 ---
 
 ## 🧠 What is ANN Regression?
 
-**Artificial Neural Network Regression** is a deep learning approach used to predict continuous numerical values.
+**Artificial Neural Network Regression** is a deep learning technique used to predict continuous numerical values.
 
-In this project, the ANN learns complex relationships between:
+In this project, the ANN learns the relationship between environmental parameters and power plant energy production.
 
-**Ambient Conditions → Power Plant Energy Output**
+### General Architecture
 
-The network consists of an input layer, hidden layers, and an output layer.
+**Input Layer → Hidden Layer → Hidden Layer → Output Layer**
 
 ---
 
 ## 🔄 Project Workflow
-
-The project follows these steps:
 
 1. Dataset Loading
 2. Dataset Exploration
@@ -165,7 +158,7 @@ The project follows these steps:
 4. Feature and Target Selection
 5. Train-Test Split
 6. Feature Scaling
-7. Conversion into PyTorch Tensors
+7. Tensor Conversion
 8. ANN Model Construction
 9. Loss Function Definition
 10. Optimizer Selection
@@ -177,14 +170,14 @@ The project follows these steps:
 
 ## 🏗️ ANN Architecture
 
-The regression model consists of:
+The model consists of:
 
-* **Input Layer:** 4 neurons
-* **Hidden Layer 1:** 6 neurons
-* **Activation:** ReLU
-* **Hidden Layer 2:** 6 neurons
-* **Activation:** ReLU
-* **Output Layer:** 1 neuron
+- **Input Layer:** 4 neurons
+- **Hidden Layer 1:** 6 neurons
+- **Activation Function:** ReLU
+- **Hidden Layer 2:** 6 neurons
+- **Activation Function:** ReLU
+- **Output Layer:** 1 neuron
 
 ### Architecture
 
@@ -194,20 +187,20 @@ The regression model consists of:
 
 ## ⚙️ Model Configuration
 
-| Parameter                | Value              |
-| ------------------------ | ------------------ |
-| Framework                | PyTorch            |
-| Problem Type             | Regression         |
-| Input Features           | 4                  |
-| Hidden Layers            | 2                  |
-| Neurons per Hidden Layer | 6                  |
-| Activation Function      | ReLU               |
-| Loss Function            | Mean Squared Error |
-| Optimizer                | Adam               |
-| Learning Rate            | 0.001              |
-| Epochs                   | 100                |
-| Train-Test Split         | 80:20              |
-| Feature Scaling          | StandardScaler     |
+| Parameter | Value |
+|---|---|
+| Framework | PyTorch |
+| Problem Type | Regression |
+| Input Features | 4 |
+| Hidden Layers | 2 |
+| Neurons per Hidden Layer | 6 |
+| Activation Function | ReLU |
+| Loss Function | Mean Squared Error (MSE) |
+| Optimizer | Adam |
+| Learning Rate | 0.001 |
+| Epochs | 100 |
+| Train-Test Split | 80:20 |
+| Feature Scaling | StandardScaler |
 
 ---
 
@@ -217,16 +210,16 @@ The regression model consists of:
 
 The input features are standardized using **StandardScaler**.
 
-Feature scaling helps the neural network train more effectively when different input features have different numerical ranges.
+Feature scaling helps the neural network train more efficiently when input features have different numerical ranges.
 
 ### Train-Test Split
 
 The dataset is divided into:
 
-* **80% Training Data**
-* **20% Testing Data**
+- **80% Training Data**
+- **20% Testing Data**
 
-The training data is used to learn patterns, while the testing data is used to evaluate the model on unseen data.
+The training data is used to train the model, while the testing data is used to evaluate its performance on unseen data.
 
 ---
 
@@ -234,7 +227,7 @@ The training data is used to learn patterns, while the testing data is used to e
 
 The model uses **Mean Squared Error (MSE)** as the loss function.
 
-MSE measures the average squared difference between the actual and predicted energy values.
+MSE measures the average squared difference between actual and predicted values.
 
 A lower MSE indicates better prediction performance.
 
@@ -242,13 +235,11 @@ A lower MSE indicates better prediction performance.
 
 ## ⚡ Optimizer
 
-The **Adam Optimizer** is used to update the weights and biases of the neural network during training.
+The model uses the **Adam Optimizer** to update the weights and biases during training.
 
-### Learning Rate
+**Learning Rate:** `0.001`
 
-**0.001**
-
-Adam helps the model efficiently minimize the loss during the training process.
+Adam provides efficient and adaptive optimization during neural network training.
 
 ---
 
@@ -256,17 +247,17 @@ Adam helps the model efficiently minimize the loss during the training process.
 
 The ANN model is trained for **100 epochs**.
 
-During training, the following process is repeated:
+During training, the model performs:
 
 **Forward Propagation → Loss Calculation → Backpropagation → Weight Update**
 
-As training progresses, the model learns the relationship between the input environmental parameters and power generation.
+This process is repeated to minimize the prediction error and improve the model's performance.
 
 ---
 
 ## 📊 Model Evaluation
 
-The regression model is evaluated using:
+The model is evaluated using:
 
 ### Mean Squared Error (MSE)
 
@@ -276,85 +267,80 @@ Measures the average squared difference between actual and predicted values.
 
 Measures how well the model explains the variation in the target variable.
 
-An R² value closer to **1.0** indicates stronger predictive performance.
+An R² score closer to **1.0** indicates better model performance.
 
 ---
 
 ## 📈 Results
 
 | Evaluation Metric | Result |
-| ----------------- | -----: |
-| **Training MSE**  |  21.14 |
-| **Testing MSE**   |  19.59 |
-| **R² Score**      | 0.9315 |
+|---|---:|
+| **Training MSE** | 21.14 |
+| **Testing MSE** | 19.59 |
+| **R² Score** | 0.9315 |
 
 ### Performance Summary
 
-The model achieved an **R² Score of 0.9315**, indicating that the ANN is able to explain approximately **93.15% of the variation** in power plant energy output on the test data.
+The model achieved an **R² Score of 0.9315**, indicating strong predictive performance on the test dataset.
 
 ---
 
 ## 💡 Key Learning Outcomes
 
-Through this project, the following concepts were implemented:
-
-* Artificial Neural Network Regression
-* PyTorch
-* Neural Network Architecture
-* ReLU Activation
-* Forward Propagation
-* Backpropagation
-* Gradient-Based Optimization
-* Adam Optimizer
-* Mean Squared Error
-* R² Score
-* Feature Scaling
-* Train-Test Split
-* PyTorch Tensors
-* Regression Model Evaluation
+- Artificial Neural Network Regression
+- PyTorch
+- Neural Network Architecture
+- ReLU Activation Function
+- Forward Propagation
+- Backpropagation
+- Adam Optimizer
+- Mean Squared Error
+- R² Score
+- Feature Scaling
+- Train-Test Split
+- PyTorch Tensors
+- Regression Model Evaluation
 
 ---
 
 ## 🌍 Real-World Applications
 
-ANN-based energy prediction can be useful for:
+ANN-based power plant energy prediction can be used for:
 
-* Power generation forecasting
-* Energy management
-* Plant operation planning
-* Resource optimization
-* Power plant efficiency analysis
-* Predictive maintenance systems
-* Smart energy management
+- Power Generation Forecasting
+- Energy Management
+- Plant Operation Planning
+- Resource Optimization
+- Power Plant Efficiency Analysis
+- Smart Energy Management
+- Predictive Analysis
 
 ---
 
 ## 🚀 Future Improvements
 
-The model can be further improved using:
-
-* Hyperparameter tuning
-* Additional hidden layers
-* Dropout
-* Batch Normalization
-* Early Stopping
-* Learning Rate Scheduling
-* Cross-Validation
-* Hyperparameter optimization
-* Model deployment using Flask or FastAPI
-* Web-based prediction interface
+- Hyperparameter Tuning
+- Additional Hidden Layers
+- Dropout Regularization
+- Batch Normalization
+- Early Stopping
+- Learning Rate Scheduling
+- Cross-Validation
+- Hyperparameter Optimization
+- Model Deployment
+- Web-Based Prediction Interface
 
 ---
 
 ## 🛠️ Technologies Used
 
-* **Python**
-* **PyTorch**
-* **Pandas**
-* **NumPy**
-* **Scikit-learn**
-* **Jupyter Notebook**
-* **Matplotlib**
+- Python
+- PyTorch
+- Pandas
+- NumPy
+- Scikit-learn
+- Jupyter Notebook
+- Matplotlib
 
 ---
 
@@ -366,52 +352,3 @@ ANN-Projects/
 ├── ANN_Regression.ipynb
 ├── powerplant_data.csv
 └── README.md
-```
-
----
-
-## 📂 Project Files
-
-### `ANN_Regression.ipynb`
-
-Jupyter Notebook containing the complete ANN Regression implementation and model evaluation.
-
-### `powerplant_data.csv`
-
-Dataset containing power plant environmental parameters and produced electrical energy.
-
-### `README.md`
-
-Project documentation containing the project overview, methodology, architecture, results, and technologies used.
-
----
-
-## ⭐ Project Highlights
-
-* ANN Regression using PyTorch
-* Real-world Power Plant dataset
-* Feature scaling using StandardScaler
-* Two hidden layers
-* ReLU activation
-* Adam optimization
-* MSE-based training
-* R²-based evaluation
-* Complete machine learning workflow
-
----
-
-## 📌 Conclusion
-
-This project demonstrates the practical implementation of an **Artificial Neural Network for Regression** using PyTorch.
-
-The model successfully learns the relationship between environmental conditions and power plant energy output, achieving an **R² Score of 0.9315** on the test data.
-
-The project provides hands-on experience with **deep learning, ANN architecture, regression, PyTorch, data preprocessing, model training, and performance evaluation**.
-
----
-
-## 👨‍💻 Author
-
-**MD SITARE**
-
-*Aspiring Data Scientist | Machine Learning Enthusiast | Python Developer*
